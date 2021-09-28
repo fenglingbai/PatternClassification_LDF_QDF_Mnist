@@ -1,7 +1,5 @@
 # coding=utf-8
 '''将二进制格式的MNIST数据集转成.jpg图片格式并保存，图片标签包含在图片名中'''
-# https://www.jianshu.com/p/e7c286530ab9
-
 
 import os
 import cv2
@@ -185,7 +183,7 @@ def ldf_pca_methods(numOfPC=784, selectClass=np.array([0,1,2,3,4,5,6,7,8,9])):
         mean[:, serach_class] = sum/len(indexMat[serach_class])
     # 5.计算相关参数
     w = np.zeros((numOfPC, classNum))            # 初始化w参数矩阵
-    w0 = np.zeros((classNum,))  # 初始化w0参数向量
+    w0 = np.zeros((classNum,))                   # 初始化w0参数向量
     for class_index in range(classNum):
         w[:,class_index] = np.dot(covMatInv, mean[:,class_index])
         w0[class_index] = (-0.5)*(mean[:,class_index].T@covMatInv@mean[:,class_index])
@@ -368,12 +366,15 @@ if __name__ == '__main__':
     rewrite = False
     numOfPC = 100
     # 分类数量
+    # 多分类
     # selectClass = np.array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    # 二分类
     selectClass = np.array([5, 8])
 
     if rewrite:
         loadRawToNpy(train_image_file, train_label_file)
         loadRawToNpy(test_image_file, test_label_file)
+
     ldf_methods(selectClass=selectClass)
     # 简单的qdf会出错:math domain error,这是由于伪逆接近于0造成的，因此采用了降维操作
     # qdf_methods(selectClass=selectClass)
