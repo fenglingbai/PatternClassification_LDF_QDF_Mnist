@@ -36,13 +36,13 @@ def ldfMethodsTrain(modelSaveDir='./modelData', numOfPC=784, selectClass=np.arra
     # 初始化存储μi的矩阵
     mean = np.zeros((numOfPC, classNum))
 
-    for serach_class in range(classNum):
-        indexMat[serach_class] = np.argwhere(train_labels == selectClass[serach_class])[:, 1]
+    for search_class in range(classNum):
+        indexMat[search_class] = np.argwhere(train_labels == selectClass[search_class])[:, 1]
         sum=0
-        for class_sample in range(len(indexMat[serach_class])):
-            sum = sum + train_images[:, indexMat[serach_class][class_sample]]
+        for class_sample in range(len(indexMat[search_class])):
+            sum = sum + train_images[:, indexMat[search_class][class_sample]]
 
-        mean[:, serach_class] = sum/len(indexMat[serach_class])
+        mean[:, search_class] = sum / len(indexMat[search_class])
     # 4.计算相关参数
     w = np.zeros((numOfPC, classNum))            # 初始化w参数矩阵
     w0 = np.zeros((classNum,))  # 初始化w0参数向量
@@ -99,13 +99,13 @@ def ldfPcaMethodsTrain(modelSaveDir='./modelData', numOfPC=784, selectClass=np.a
     # 初始化存储μi的矩阵
     mean = np.zeros((numOfPC, classNum))
 
-    for serach_class in range(classNum):
-        indexMat[serach_class] = np.argwhere(train_labels == selectClass[serach_class])[:, 1]
+    for search_class in range(classNum):
+        indexMat[search_class] = np.argwhere(train_labels == selectClass[search_class])[:, 1]
         sum=0
-        for class_sample in range(len(indexMat[serach_class])):
-            sum = sum + train_images[:, indexMat[serach_class][class_sample]]
+        for class_sample in range(len(indexMat[search_class])):
+            sum = sum + train_images[:, indexMat[search_class][class_sample]]
 
-        mean[:, serach_class] = sum/len(indexMat[serach_class])
+        mean[:, search_class] = sum / len(indexMat[search_class])
     # 5.计算相关参数
     w = np.zeros((numOfPC, classNum))            # 初始化w参数矩阵
     w0 = np.zeros((classNum,))                   # 初始化w0参数向量
@@ -160,14 +160,14 @@ def qdfMethodsTrain(modelSaveDir='./modelData', numOfPC=784, selectClass=np.arra
     mean = np.zeros((numOfPC, classNum))
     I = np.eye(numOfPC)
     BETA = 0.1
-    for serach_class in range(classNum):
-        indexMat[serach_class] = np.argwhere(train_labels == selectClass[serach_class])[:, 1]
+    for search_class in range(classNum):
+        indexMat[search_class] = np.argwhere(train_labels == selectClass[search_class])[:, 1]
 
-        classesMat[serach_class] = train_images[:, indexMat[serach_class]]
+        classesMat[search_class] = train_images[:, indexMat[search_class]]
         # 按行取均值
-        mean[:, serach_class] = np.mean(classesMat[serach_class], axis=1)
-        covMat[serach_class] = np.dot(np.cov(classesMat[serach_class]), (1-BETA))+np.dot(I, BETA)
-        covMatInv[serach_class] = np.linalg.inv(covMat[serach_class])
+        mean[:, search_class] = np.mean(classesMat[search_class], axis=1)
+        covMat[search_class] = np.dot(np.cov(classesMat[search_class]), (1 - BETA)) + np.dot(I, BETA)
+        covMatInv[search_class] = np.linalg.inv(covMat[search_class])
 
     # 3.计算相关参数
     W = [[] for i in range(classNum)]            # 初始化W参数矩阵
@@ -233,15 +233,15 @@ def qdfPcaMethodsTrain(modelSaveDir='./modelData', numOfPC=784, selectClass=np.a
     # shrinkage和伪逆方法，这种情况下ln(det(covMat{i}))太小，不适合
     # I = np.eye(numOfPC)
     # BETA = 0.01
-    for serach_class in range(classNum):
-        indexMat[serach_class] = np.argwhere(train_labels == selectClass[serach_class])[:, 1]
+    for search_class in range(classNum):
+        indexMat[search_class] = np.argwhere(train_labels == selectClass[search_class])[:, 1]
 
-        classesMat[serach_class] = train_images[:, indexMat[serach_class]]
+        classesMat[search_class] = train_images[:, indexMat[search_class]]
         # 按行取均值
-        mean[:, serach_class] = np.mean(classesMat[serach_class], axis=1)
-        # covMat[serach_class] = np.dot(np.cov(classesMat[serach_class]), (1-BETA))+np.dot(I, BETA)
-        covMat[serach_class] = np.cov(classesMat[serach_class])
-        covMatInv[serach_class] = np.linalg.inv(covMat[serach_class])
+        mean[:, search_class] = np.mean(classesMat[search_class], axis=1)
+        # covMat[search_class] = np.dot(np.cov(classesMat[search_class]), (1-BETA))+np.dot(I, BETA)
+        covMat[search_class] = np.cov(classesMat[search_class])
+        covMatInv[search_class] = np.linalg.inv(covMat[search_class])
 
     # 3.计算相关参数
     W = [[] for i in range(classNum)]            # 初始化W参数矩阵
